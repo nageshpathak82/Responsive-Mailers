@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+	<meta charset="utf-8"> <!-- utf-8 works for most cases -->
+	<meta name="viewport" content="width=device-width"> <!-- Forcing initial-scale shouldn't be necessary -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- Use the latest (edge) version of IE rendering engine -->
+	<meta name="x-apple-disable-message-reformatting">	<!-- Disable auto-scale in iOS 10 Mail entirely -->
+	<title></title> <!-- The title tag shows in email notifications, like Android 4.4. -->
+
+	<!-- Web Font / @font-face : BEGIN -->
+	<!-- NOTE: If web fonts are not required, lines 10 - 27 can be safely removed. -->
+
+	<!-- Desktop Outlook chokes on web font references and defaults to Times New Roman, so we force a safe fallback font. -->
+	<!--[if mso]>
+		<style>
+			* {
+				font-family: sans-serif !important;
+			}
+		</style>
+	<![endif]-->
+
+	<!-- All other clients get the webfont reference; some will render the font and others will silently fail to the fallbacks. More on that here: http://stylecampaign.com/blog/2015/02/webfont-support-in-email/ -->
+	<!--[if !mso]><!-->
+		<!-- insert web font reference, eg: <link href='https://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'> -->
+	<!--<![endif]-->
+
+	<!-- Web Font / @font-face : END -->
+
+	<!-- CSS Reset -->
+	<style>
+
+		/* What it does: Remove spaces around the email design added by some email clients. */
+		/* Beware: It can remove the padding / margin and add a background color to the compose a reply window. */
+		html,
+		body {
+			margin: 0 auto !important;
+			padding: 0 !important;
+			height: 100% !important;
+			width: 100% !important;
+		}
+
+		/* What it does: Stops email clients resizing small text. */
+		* {
+			-ms-text-size-adjust: 100%;
+			-webkit-text-size-adjust: 100%;
+		}
+
+		/* What it does: Centers email on Android 4.4 */
+		div[style*="margin: 16px 0"] {
+			margin:0 !important;
+		}
+
+		/* What it does: Stops Outlook from adding extra spacing to tables. */
+		table,
+		td {
+			mso-table-lspace: 0pt !important;
+			mso-table-rspace: 0pt !important;
+		}
+
+		/* What it does: Fixes webkit padding issue. Fix for Yahoo mail table alignment bug. Applies table-layout to the first 2 tables then removes for anything nested deeper. */
+		table {
+			border-spacing: 0 !important;
+			border-collapse: collapse !important;
+			table-layout: fixed !important;
+			
+		}
+		table table table {
+			table-layout: auto;
+		}
+
+		/* What it does: Uses a better rendering method when resizing images in IE. */
+		img {
+			-ms-interpolation-mode:bicubic;
+		}
+
+		/* What it does: A work-around for email clients meddling in triggered links. */
+		*[x-apple-data-detectors],	/* iOS */
+		.x-gmail-data-detectors, 	/* Gmail */
+		.x-gmail-data-detectors *,
+		.aBn {
+			border-bottom: 0 !important;
+			font-size: inherit !important;
+			font-family: inherit !important;
+			font-weight: inherit !important;
+			line-height: inherit !important;
+		}
+
+		/* What it does: Prevents Gmail from displaying an download button on large, non-linked images. */
+		.a6S {
+			 display: none !important;
+			 opacity: 0.01 !important;
+		}
+		/* If the above doesn't work, add a .g-img class to any image in question. */
+		img.g-img + div {
+			 display:none !important;
+			}
+
+		/* What it does: Prevents underlining the button text in Windows 10 */
+		.button-link {
+			text-decoration: none !important;
+		}
+
+		/* What it does: Removes right gutter in Gmail iOS app: https://github.com/TedGoas/Cerberus/issues/89  */
+		/* Create one of these media queries for each additional viewport size you'd like to fix */
+		/* Thanks to Eric Lepetit (@ericlepetitsf) for help troubleshooting */
+		@media only screen and (min-device-width: 375px) and (max-device-width: 413px) { /* iPhone 6 and 6+ */
+			.email-container {
+				min-width: 375px !important;
+			}
+		}
+
+	</style>
+
+	<!-- Progressive Enhancements -->
+	<style>
+
+		/* What it does: Hover styles for buttons */
+		.button-td,
+		.button-a {
+			transition: all 100ms ease-in;
+		}
+		.button-td:hover,
+		.button-a:hover {
+			background: #555555 !important;
+			border-color: #555555 !important;
+		}
+
+		/* Media Queries */
+		@media screen and (max-width: 500px) {
+
+			.email-container {
+				width: 100% !important;
+				margin: auto !important;
+				font-size:14px; 
+			}
+
+			/* What it does: Forces elements to resize to the full width of their container. Useful for resizing images beyond their max-width. */
+			.fluid {
+				max-width: 100% !important;
+				height: auto !important;
+				margin-left: auto !important;
+				margin-right: auto !important;
+			}
+
+			/* What it does: Forces table cells into full-width rows. */
+			.stack-column,
+			.stack-column-center {
+				display: block !important;
+				width: 100% !important;
+				max-width: 100% !important;
+				direction: ltr !important;
+			}
+			/* And center justify these ones. */
+			.stack-column-center {
+				text-align: center !important;
+			}
+
+			/* What it does: Generic utility class for centering. Useful for images, buttons, and nested tables. */
+			.center-on-narrow {
+				text-align: center !important;
+				display: block !important;
+				margin-left: auto !important;
+				margin-right: auto !important;
+				float: none !important;
+			}
+			table.center-on-narrow {
+				display: inline-block !important;
+			}
+
+			/* What it does: Adjust typography on small screens to improve readability */
+			.email-container p {
+				font-size: 12px !important;
+				line-height: 22px !important;
+			}
+
+		}
+
+	</style>
+
+	<!-- What it does: Makes background images in 72ppi Outlook render at correct size. -->
+	<!--[if gte mso 9]>
+	<xml>
+		<o:OfficeDocumentSettings>
+			<o:AllowPNG/>
+			<o:PixelsPerInch>96</o:PixelsPerInch>
+		</o:OfficeDocumentSettings>
+	</xml>
+	<![endif]-->
+
+</head>
+<body width="100%" bgcolor="#f4f4f4" style="margin: 0; mso-line-height-rule: exactly; font-size:14px; font-family: verdana;">
+	<center style="width: 100%; background: #f4f4f4; text-align: left;">
+		
+		<!-- Email Header : BEGIN -->
+		<table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" width="600" style="margin: auto; background: #761613; " class="email-container">
+			<tr>
+				<td style="padding: 15px 0; text-align: center">
+					<a href="http://www.jungleerummy.com" target="_blank"><img src="https://d22ueo28hfk252.cloudfront.net/mailer/new-mailer-img-1-sep/jr_logo.png" width="222" height="" alt="JungleeRummy" title="JungleeRummy" border="0" style="height: auto;"></a>
+				</td>
+			</tr>
+		</table>
+		<!-- Email Header : END -->
+		
+		<!-- Email Header : BEGIN -->
+		<table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" width="600" style="margin: auto;" class="email-container">
+			<tr>
+				
+				<td bgcolor="#ffffff" align="center">
+					<a href="https://www.jungleerummy.com/promotion" target="_blank"><img src="https://d22ueo28hfk252.cloudfront.net/mailer/new-mailer-img-1-sep/top-banner.jpg" width="600" height="" alt="top-banner" title="top-banner" border="0" align="center" style="width: 100%; max-width: 600px; height: auto; background: #dddddd;  margin: auto;" class="g-img"></a>
+				</td>
+			
+			</tr>
+		</table>
+		<!-- Email Header : END -->
+		
+		
+		<!-- Email Body : BEGIN -->
+		<table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" width="600" style="margin: auto;" class="email-container">
+
+			<!-- Clear Spacer : BEGIN -->
+			<tr>
+				<td aria-hidden="true" height="10" style="font-size: 0; line-height: 0;">
+					&nbsp;
+				</td>
+			</tr>
+			<!-- Clear Spacer : END -->
+
+			<!-- 3 Even Columns : BEGIN -->
+			<tr>
+				<td bgcolor="#ffffff" align="center" valign="top" style="padding: 0px; border:1px solid #d9d9d9; ">
+					
+					<!-- Email Header : BEGIN -->
+					<table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" width="600" style="margin: auto;" class="email-container">
+						<tr>
+
+							<td bgcolor="#ffffff" align="left" style="padding-left:10px;">
+								<p style="color: #330000; text-transform: uppercase; font-size: 18px; line-height: 10px; padding: 0; margin: 0; margin-top: 15px;"><b>Festive Leaderboard</b></p>
+								<p style="font-size:14px;">Join the Hot Leaderboard Action and Win up to Rs.2 Lakhs!</p>
+							</td>
+
+						</tr>
+					</table>
+					<!-- Email Header : END -->
+		
+					
+					<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="96%" style="border-bottom:1px solid #d9d9d9; border-top:1px solid #d9d9d9;">
+						<tr>
+							<!-- Column : BEGIN -->
+							<td width="33.33%" class="stack-column-center">
+								<table role="presentation" cellspacing="0" cellpadding="0" border="0">
+									<tr>
+										<td style="line-height: 20px; color: #555555; padding: 10px; font-size:13px; text-align: left;" class="center-on-narrow">
+											<p style="margin: 0;">Minimum Deposit</p>
+											<p style="margin: 0; color:#000;"><b>Rs. 1000</b></p>
+										</td>
+									</tr>
+								</table>
+							</td>
+							<!-- Column : END -->
+							<!-- Column : BEGIN -->
+							<td width="33.33%" class="stack-column-center">
+								<table role="presentation" cellspacing="0" cellpadding="0" border="0">
+									<tr>
+										<td style="line-height: 20px; color: #555555; padding: 10px; font-size:13px; text-align: center;" class="center-on-narrow">
+											<p style="margin: 0;">Total Winners</p>
+											<p style="margin: 0; color:#000;"><b>15</b></p>
+										</td>
+									</tr>
+								</table>
+							</td>
+							<!-- Column : END -->
+							<!-- Column : BEGIN -->
+							<td width="33.33%" class="stack-column-center">
+								<table role="presentation" cellspacing="0" cellpadding="0" border="0">
+									<tr>
+										<td style="line-height: 20px; color: #555555; padding: 10px; font-size:13px; text-align: center;" class="center-on-narrow">
+											<p style="margin: 0;">Promotion Period</p>
+											<p style="margin: 0; color:#000;"><b>29 – 30 September 2017</b></p>
+										</td>
+									</tr>
+								</table>
+							</td>
+							<!-- Column : END -->
+							
+						</tr>
+
+					</table>
+					
+					<p><a href="https://www.jungleerummy.com/promotion/september2017-festive-leaderboard" target="_blank" style="background:#89d000; color:#fff; text-decoration:none; border:1px solid #5dc600; font-weight:bold;  font-size: 14px;width: 96%;display: block;padding: 9px 0px;text-transform:uppercase;">Top the Leaderboard Now</a></p>
+				</td>
+			</tr>
+			
+			<!-- 3 Even Columns : END -->
+
+			<!-- Clear Spacer : BEGIN -->
+			<tr>
+				<td aria-hidden="true" height="10" style="font-size: 0; line-height: 0;">
+					&nbsp;                                      
+				</td>
+			</tr>
+			<!-- Clear Spacer : END -->
+			
+			
+			
+			<!-- Hero Image, Flush : BEGIN -->
+			<tr>
+				<td bgcolor="#ffffff" align="center">
+					<a href="https://www.jungleerummy.com/android-apk" target="_blank"><img src="https://d22ueo28hfk252.cloudfront.net/mailer/new-mailer-img-1-sep/apk-down.png" width="600" height="" alt="apk-down" title="apk-down" border="0" align="center" style="width: 100%; max-width: 600px; height: auto; background: #dddddd; line-height: 20px; color: #555555; margin: auto;" class="g-img"></a>
+				</td>
+			</tr>
+			<!-- Hero Image, Flush : END -->
+			
+			<!-- Clear Spacer : BEGIN -->
+			<tr>
+				<td aria-hidden="true" height="10" style="font-size: 0; line-height: 0;">
+					&nbsp;                                      
+				</td>
+			</tr>
+			<!-- Clear Spacer : END -->
+			
+			<!-- 3 Even Columns : BEGIN -->
+			<tr>
+				<td bgcolor="#ffffff" align="center" valign="top" style="padding: 0px; border:1px solid #d9d9d9; ">
+					
+					<!-- Email Header : BEGIN -->
+					<table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" width="600" style="margin: auto;" class="email-container">
+						<tr>
+
+							<td bgcolor="#ffffff" align="left" style="padding-left:10px;">
+								<p style="color: #330000; text-transform: uppercase; font-size: 18px; line-height: 10px; padding: 0; margin: 0; margin-top: 15px;"><b>Navratri Tournament </b></p>
+								<p style="font-size:14px;">Register and Win a Huge Prize this Festive Season!</p>
+							</td>
+
+						</tr>
+					</table>
+					<!-- Email Header : END -->
+		
+					
+					<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="96%" style="border-bottom:1px solid #d9d9d9; border-top:1px solid #d9d9d9;">
+						<tr>
+							<!-- Column : BEGIN -->
+							<td width="33.33%" class="stack-column-center">
+								<table role="presentation" cellspacing="0" cellpadding="0" border="0">
+									<tr>
+										<td style="line-height: 20px; color: #555555; padding: 10px; font-size:13px; text-align: left;" class="center-on-narrow">
+											<p style="margin: 0;">Start Time</p>
+											<p style="margin: 0; color:#000;"><b>3 PM, 29 September 2017</b></p>
+										</td>
+									</tr>
+								</table>
+							</td>
+							<!-- Column : END -->
+							<!-- Column : BEGIN -->
+							<td width="33.33%" class="stack-column-center">
+								<table role="presentation" cellspacing="0" cellpadding="0" border="0">
+									<tr>
+										<td style="line-height: 20px; color: #555555; padding: 10px; font-size:13px; text-align: center;" class="center-on-narrow">
+											<p style="margin: 0;">Entry Fee</p>
+											<p style="margin: 0; color:#000;"><b>Zero</b></p>
+										</td>
+									</tr>
+								</table>
+							</td>
+							<!-- Column : END -->
+							<!-- Column : BEGIN -->
+							<td width="33.33%" class="stack-column-center">
+								<table role="presentation" cellspacing="0" cellpadding="0" border="0">
+									<tr>
+										<td style="line-height: 20px; color: #555555; padding: 10px; font-size:13px; text-align: center;" class="center-on-narrow">
+											<p style="margin: 0;">Prize Pool</p>
+											<p style="margin: 0; color:#000;"><b>Rs.2,00,000 Guaranteed</b></p>
+										</td>
+									</tr>
+								</table>
+							</td>
+							<!-- Column : END -->
+							
+						</tr>
+
+					</table>
+					
+					<p><a href="https://www.jungleerummy.com/promotion/september2017-navratri-tournament" style="background:#89d000; color:#fff; text-decoration:none; border:1px solid #5dc600; font-weight:bold;     font-size: 14px;width: 96%;display: block;padding: 9px 0px;text-transform:uppercase;">PLAY NOW</a></p>
+				</td>
+			</tr>
+			
+			<!-- 3 Even Columns : END -->
+			
+			<!-- Clear Spacer : BEGIN -->
+			<tr>
+				<td aria-hidden="true" height="10" style="font-size: 0; line-height: 0;">
+					&nbsp;                                      
+				</td>
+			</tr>
+			<!-- Clear Spacer : END -->
+			
+			<!-- 3 Even Columns : BEGIN -->
+			<tr>
+				<td bgcolor="#ffffff" align="center" valign="top" style="padding: 0px; border:1px solid #d9d9d9; ">
+					
+					<!-- Email Header : BEGIN -->
+					<table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" width="600" style="margin: auto;" class="email-container">
+						<tr>
+
+							<td bgcolor="#ffffff" align="left" style="padding-left:10px;">
+								<p style="color: #330000; text-transform: uppercase; font-size: 18px; line-height: 10px; padding: 0; margin: 0; margin-top: 15px;"><b>Dussehra Delight</b></p>
+								<p style="font-size:14px;">Play more than 100 cash games and Win up to Rs.250!</p>
+							</td>
+
+						</tr>
+					</table>
+					<!-- Email Header : END -->
+		
+					
+					<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="96%" style="border-bottom:1px solid #d9d9d9; border-top:1px solid #d9d9d9;">
+						<tr>
+							<!-- Column : BEGIN -->
+							<td width="33.33%" class="stack-column-center">
+								<table role="presentation" cellspacing="0" cellpadding="0" border="0">
+									<tr>
+										<td style="line-height: 20px; color: #555555; padding: 10px; font-size:13px; text-align: left;" class="center-on-narrow">
+											<p style="margin: 0;">Minimum Deposit</p>
+											<p style="margin: 0; color:#000;"><b>Rs.100</b></p>
+										</td>
+									</tr>
+								</table>
+							</td>
+							<!-- Column : END -->
+							<!-- Column : BEGIN -->
+							<td width="33.33%" class="stack-column-center">
+								<table role="presentation" cellspacing="0" cellpadding="0" border="0">
+									<tr>
+										<td style="line-height: 20px; color: #555555; padding: 10px; font-size:13px; text-align: center;" class="center-on-narrow">
+											<p style="margin: 0;">Min Cash Tables</p>
+											<p style="margin: 0; color:#000;"><b>Rs.8 & above</b></p>
+										</td>
+									</tr>
+								</table>
+							</td>
+							<!-- Column : END -->
+							<!-- Column : BEGIN -->
+							<td width="33.33%" class="stack-column-center">
+								<table role="presentation" cellspacing="0" cellpadding="0" border="0">
+									<tr>
+										<td style="line-height: 20px; color: #555555; padding: 10px; font-size:13px; text-align: center;" class="center-on-narrow">
+											<p style="margin: 0;">Promotion Period</p>
+											<p style="margin: 0; color:#000;"><b>29 – 30 September 2017</b></p>
+										</td>
+									</tr>
+								</table>
+							</td>
+							<!-- Column : END -->
+							
+						</tr>
+
+					</table>
+					
+					<p><a href="https://www.jungleerummy.com/promotion/september2017-dussehra-delight" style="background:#89d000; color:#fff; text-decoration:none; border:1px solid #5dc600; font-weight:bold; font-size: 14px;width: 96%;display: block;padding: 9px 0px; text-transform:uppercase;">Play Now</a></p>
+				</td>
+			</tr>
+			
+			<!-- 3 Even Columns : END -->
+			
+			<!-- Clear Spacer : BEGIN -->
+			<tr>
+				<td aria-hidden="true" height="10" style="font-size: 0; line-height: 0;">
+					&nbsp;
+				</td>
+			</tr>
+			<!-- Clear Spacer : END -->
+			
+			
+			<!-- Hero Image, Flush : BEGIN -->
+			<tr>
+				<td bgcolor="#ffffff" align="center">
+					<a href="https://www.jungleerummy.com/friends/referandwin"><img src="https://d22ueo28hfk252.cloudfront.net/mailer/Strip-Banners-new.jpg" width="600" height="" alt="ref-img" title="ref-img" border="0" align="center" style="width: 100%; max-width: 600px; height: auto; background: #dddddd; line-height: 20px; color: #555555; margin: auto;" class="g-img"></a>
+				</td>
+			</tr>
+			
+			<tr>
+				<td bgcolor="#ffffff" align="center">
+					<a href="mailto:support@jungleerummy.com"><img src="https://d22ueo28hfk252.cloudfront.net/mailer/new-mailer-img-1-sep/contact-strip.png" width="600" height="" alt="contact-strip" title="ref-img" border="0" align="center" style="width: 100%; max-width: 600px; height: auto; background: #dddddd; line-height: 20px; color: #555555; margin: auto;" class="g-img"></a>
+				</td>
+			</tr>
+			<!-- Hero Image, Flush : END -->
+			
+			
+
+			<!-- Clear Spacer : BEGIN -->
+			<tr>
+				<td aria-hidden="true" height="10" style="font-size: 0; line-height: 0;">
+					&nbsp;
+				</td>
+			</tr>
+			<!-- Clear Spacer : END -->
+
+			<!-- 1 Column Text : BEGIN -->
+			<tr>
+				<td bgcolor="">
+					<table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+						<tr>
+							<td style="padding: 0px; color: #555555;">
+								<b style="color: #333333; text-align: left; font-size: 11px; line-height:22px;padding: 0; margin:0;">Terms and Conditions</b><br />
+							 <p style="color: #666666; text-align: left; font-size: 11px; line-height:22px; font-weight: normal;padding: 8px 0px; margin:0; border-bottom:1px solid #c9c9c9; border-top:1px solid #c9c9c9; margin-top:6px;">
+								1.	Each promotion has its own promotion period and eligibility criteria <br />
+2.	Players must update their valid email ids and contact numbers to avail the bonus. <br />
+3.	The prizes/bonuses will be credited to the players' accounts at the end of the promotion. <br />
+4.	All standard Junglee Rummy terms and conditions apply. <br />
+5.	The decision of Junglee Rummy management is final in case of any disputes. <br />
+							</p>
+								
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<!-- 1 Column Text : END -->
+
+		</table>
+		<!-- Email Body : END -->
+
+		<!-- Email Footer : BEGIN -->
+		<table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" width="600" style="margin: auto;" class="email-container">
+			<tr>
+				<td style="padding: 20px 10px;width: 100%;font-size: 12px; text-align: center; color: #888888;" class="x-gmail-data-detectors">
+					  
+			  <span style="text-align:right;padding:0px 0 0 0">
+			  
+			  <a href="https://www.facebook.com/JungleeRummy" style="margin-right:10px" target="_blank"><img src="https://d22ueo28hfk252.cloudfront.net/mailer/30-august-image/fb.png" alt="fb" title="fb" /></a> 
+			  
+			  <a href="https://twitter.com/JungleeRummy" style="margin-right:10px" target="_blank"><img src="https://d22ueo28hfk252.cloudfront.net/mailer/30-august-image/tw.png" alt="tw" title="tw" /></a> 
+			  
+			  <a href="https://plus.google.com/+Jungleerummy/posts" style="margin-right:10px" target="_blank"><img src="https://d22ueo28hfk252.cloudfront.net/mailer/30-august-image/g.png" alt="gpluse" title="gpluse" /></a> 
+			  
+			  <a href="http://www.pinterest.com/jungleerummy" style="margin-right:10px" target="_blank"><img src="https://d22ueo28hfk252.cloudfront.net/mailer/30-august-image/p.png" alt="pin" title="pin" /></a> 
+			   
+			  <a href="https://www.jungleerummy.com/" style="margin-right:10px;"><img src="https://d22ueo28hfk252.cloudfront.net/mailer/30-august-image/18.png" alt="18pluse" title="18pluse"/></a> </span> <br />
+			  
+			  <p><a style="color:#0099cc;" href="[UNSUBSCRIBEURL]">Unsubscribe</a></p>
+				</td>
+			</tr>
+		</table>
+		<!-- Email Footer : END -->
+
+
+
+	</center>
+</body>
+</html>
